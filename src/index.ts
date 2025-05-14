@@ -23,6 +23,7 @@ import orderRoutes from '@/routes/order.route'
 import { socketPlugin } from '@/plugins/socket.plugins'
 import indicatorRoutes from '@/routes/indicator.route'
 import autoRemoveRefreshTokenJob from '@/jobs/autoRemoveRefreshToken.job'
+import categoryRoutes from './routes/category.route'
 
 const fastify = Fastify({
   logger: false
@@ -67,6 +68,9 @@ const start = async () => {
     })
     fastify.register(staticRoutes, {
       prefix: '/static'
+    })
+    fastify.register(categoryRoutes, {
+      prefix: '/categories'
     })
     fastify.register(dishRoutes, {
       prefix: '/dishes'
