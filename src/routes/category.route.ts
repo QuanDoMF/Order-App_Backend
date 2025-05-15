@@ -3,6 +3,7 @@ import {
     updateCategory,
     deleteCategory,
     getCategoryListWithPagination,
+    getCategoryDetail,
     getCategoryList
 } from "@/controllers/category.controller"
 import { pauseApiHook, requireEmployeeHook, requireLoginedHook, requireOwnerHook } from '@/hooks/auth.hooks'
@@ -70,6 +71,27 @@ export default async function categoryRoutes(fastify: FastifyInstance, options: 
                     limit: data.limit
                 },
                 message: 'Lấy danh sách danh mục thành công!'
+            })
+        }
+    )
+    fastify.get<{
+        Params: CategoryParamsType
+        Reply:  CategoryResType
+    }>(
+        '/:id',
+        {
+            schema: {
+                params: CategoryParams,
+                response: {
+                    200: CategoryRes
+                }
+            }
+        },
+        async (request, reply) => {
+            const category = await getCategoryDetail(request.params.id)
+            reply.send({
+                data: category as CategoryResType['data'],
+                message: 'Lấy thông tin danh mục thành công!'
             })
         }
     )
