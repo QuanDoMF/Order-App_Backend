@@ -38,9 +38,18 @@ export const getDishDetail = (id: number) => {
 
 export const createDish = (data: CreateDishBodyType) => {
   return prisma.dish.create({
-    data
-  })
-}
+    data: {
+      name: data.name,
+      price: data.price,
+      description: data.description,
+      image: data.image,
+      status: data.status,
+      category: {
+        connect: { id: data.categoryId }, 
+      },
+    },
+  });
+};
 
 export const updateDish = (id: number, data: UpdateDishBodyType) => {
   return prisma.dish.update({
